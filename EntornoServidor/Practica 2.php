@@ -9,9 +9,8 @@
 
 <body>
     <?php
-    /* 1.a Variable de tipo String con valor “Hola” concatenada a un espacio y 
-            concatenada  a  una  variable  de  tipo  String  con  valor  “Mundo”. 
-            Guarda la concatenación en una nueva variable. */
+    echo "1.a Variable de tipo String con valor “Hola” concatenada a un espacio y concatenada  a  una  variable  de  tipo  String  con  valor  “Mundo”. Guarda la concatenación en una nueva variable.";
+    echo "<br>";
     $var = "Hola";
     $var1 = "Mundo";
     $var2 = $var . " " . $var1;
@@ -28,7 +27,7 @@
     /*  1.d Variable  de  tipo  array que contenga los valores “1”, “2” y “3” y 
         tengan como clave valor1, valor2 y valor3 respectivamente”. */
     $array = array('valor1' => 1, 'valor2' => 2, 'valor3' => 3);
-    echo print_r($array);
+     print_r($array);
     echo "<br>";
     /*2. Cambia  la  variable  de  tipo  boolean  a valor “false”. Muestra el resultado 
     obtenido al ejecutarlo con el servidor. ¿Qué ocurre y por qué?
@@ -81,10 +80,10 @@
     echo "<br>";
     echo intval($HolaMundo);
     /* 9.Crea programas que calcule lo siguiente: (2 puntos) 
-    a. La raíz cuadrada de 144 
-    b. La potencia 28 
-    c. El resto de la división de 100/6 
-    d. El máximo común divisor de 3 y 6*/
+    //a. La raíz cuadrada de 144 
+    //b. La potencia 28 
+    //c. El resto de la división de 100/6 
+    //d. El máximo común divisor de 3 y 6*/
     echo "<br>";
     echo "<br>";
     echo sqrt(144);
@@ -94,8 +93,13 @@
     echo 100 / 6;
     echo "<br>";
     
-
-
+    function obtener_mcd($a, $b) {
+        if($b==0)
+            return $a;
+        else
+            return obtener_mcd($b, $a%$b);
+    } 
+    echo("Cual es el mcd de 3 y 6? Es ".obtener_mcd(3,6));
 
     ?>
 </body>
