@@ -21,8 +21,8 @@
             entre las estrellas, podrás crear el personaje que desees y explorar con una libertad sin precedentes
             mientras te embarcas en un viaje épico para desentrañar el mayor misterio de la humanidad.</h4>
     </ul>
-    
-        <img class="foto" src="https://cl.buscafs.com/www.levelup.com/public/uploads/images/814769/814769.jpg">
+        <!--  si le das doble clic vuelve a la misma posicion -->
+        <img class="foto" onclick="centro()" ondblclick="lado()" src="https://cl.buscafs.com/www.levelup.com/public/uploads/images/814769/814769.jpg">
     
     
     <br>
@@ -37,7 +37,18 @@
         function funcionboton2() {
             alert("No se puede devolver este producto");
         }
+        function centro(){
+            var centro = document.getElementsByClassName("foto")[0];
+            
+            centro.style.transition = ".5s";
+            centro.style.marginLeft="25%";
         
+        }
+        function lado(){
+            var lado = document.getElementsByClassName("foto")[0];
+            lado.style.transition = ".5s";
+            lado.style.marginLeft="2%";
+        }
     </script>
 </body>
 

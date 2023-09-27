@@ -34,10 +34,6 @@ ul{
     margin-left: 2%;
     border-radius: 12px;
 }
-.foto:hover{
-    transition: .7s;
-    margin-left: 25%;
-}
 
 
 .button_slide {
