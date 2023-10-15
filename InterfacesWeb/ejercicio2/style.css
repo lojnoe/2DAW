@@ -1,0 +1,127 @@
+body {
+    background-color: #111;
+    cursor: crosshair;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Pixelify+Sans&display=swap');
+
+.titulo {
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Pixelify Sans', cursive;
+}
+
+.fotos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    align-content: space-around;
+
+}
+
+
+
+h3 {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Pixelify Sans', cursive;
+}
+
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    align-content: space-around;
+    margin: auto;
+
+
+}
+
+.tarjeta img {
+    height: 350px;
+    width: 250px;
+
+    border-radius: 10px;
+    border: 2px white solid;
+    overflow: hidden;
+
+
+}
+
+.tarjeta>img:hover {
+    
+    transform: scale(1.2);
+    margin: auto;
+    transition: .5s;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 25px;
+    box-shadow: 0px 1px 0px 0px #1c1b18;
+    background: linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+    background-color: #eae0c2;
+    border-radius: 15px;
+    border: 2px solid #333029;
+    cursor: pointer;
+    color: #505739;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+
+
+}
+
+.boton:hover {
+    background: linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+    background-color: #ccc2a6;
+}
+
+.boton:active {
+    position: relative;
+    top: 1px;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+}
+
+main {
+    margin-bottom: 125px;
+}
+
+hr {
+    color: white;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    font-size: 20px;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="https://emojitool.com/img/apple/ios-14.2/polar-bear-2043.png">
+
+    <title>Ejercicio Interfaces Web</title>
+    <script>
+        function funcionboton() {
+            alert("Registrado correctamente");
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="cabezera">
+            <h1>Galeria de Fotos</h1>
+        </div>
+        <nav>
+            <button class="botonnav"
+                onclick="location.href='https://twitter.com/dangotaso/status/1696432506118246735'">Twitter</button>
+            <button class="botonnav" onclick="location.href='https://dangotaso.com/portfolio/'">+FOTOS</button>
+            <button class="botonnav" onclick="location.href='https://dangotaso.com'">Pagina de la creadora</button>
+        </nav>
+    </header>
+    <main>
+        <section class="centro">
+            <figure class="tarjetas">
+                <div class="tarjetas__contenido">
+                    <div class="tarjetas__elemento"></div>
+                    <div class="tarjetas__elemento"></div>
+                    <div class="tarjetas__elemento"></div>
+                </div>
+            </figure>
+
+            <div class="main">
+                <p> Registrate para ver las fotos</p>
+                <form>
+                    <div class="contenedor">
+                        <label>Nombre</label>
+                        <input type="text" name="user">
+                        <label>Correo</label>
+                        <input type="text" name="email">
+                        <label>Contraseña</label>
+                        <input type="password" name="password">
+                        <label>Recordar contraseña</label>
+                        <input type="checkbox" name="Recordar">
+                        <progress></progress>
+                        <label>Registrar</label>
+                        <input type="submit" value="REGISTRAR" onclick="funcionboton()">
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer">
+            <h1>© 2023 dangotaso. All rights reserved. Repost & AI learning is prohibited.</h1>
+            <ul>
+                <li><a
+                        href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjTmJ2DvNyBAxXBVqQEHVH2DZoQFnoECBMQAQ&url=https%3A%2F%2Fwww.safecreative.org%2Fblog%2Fes%2F2022%2F10%2F11%2Fcomo-saber-si-una-imagen-tiene-derechos-de-autor%2F&usg=AOvVaw3oks59NQto-UgeXFW59A12&opi=89978449">Pincha
+                        aqui</a></li>
+                <li><a href="https://youtu.be/dQw4w9WgXcQ?si=V6V4lJVyW5BygZzu">Sorpresa</a></li>
+                <li><a
+                        href="https://www.ovtt.org/recursos/derechos-de-autor-o-copyright/#:~:text=Los%20derechos%20de%20autor%20o,tanto%20derechos%20patrimoniales%20como%20morales.">Derechos
+                        de copyright ©</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>
