@@ -13,7 +13,7 @@ class PostController extends Controller
     }
     public function store(){
 
-        // guardar
+        
     }
     public function destroy(){
 
