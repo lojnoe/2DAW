@@ -11,9 +11,10 @@ class PostController extends Controller
 
         return view ('posts.index');
     }
-    public function store(){
+    public function store(Request $request){
 
-        
+        $request -> validate(['body' => 'required']);
+        return $request-> all();
     }
     public function destroy(){
 
