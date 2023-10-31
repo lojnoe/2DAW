@@ -15,7 +15,7 @@
                         <div class="mt-4">
                             <x-input-label for="body" :value="__('Body')" />
 
-                            <x-textarea class="block mt-1 w-full" name="body"/>
+                            <x-textarea class="block mt-1 w-full" name="body" require/>
 
                             <div class="flex justify-end mt-4">
                                 <x-primary-button>

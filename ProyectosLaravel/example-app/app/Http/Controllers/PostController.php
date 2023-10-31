@@ -14,7 +14,9 @@ class PostController extends Controller
     public function store(Request $request){
 
         $request -> validate(['body' => 'required']);
-        return $request-> all();
+        $request-> user()->posts()->create($request->only('body'));
+        
+        return back()->with('status','Publicacion guardada exitosamente');
     }
     public function destroy(){
 
