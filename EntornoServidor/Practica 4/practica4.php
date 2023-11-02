@@ -37,6 +37,7 @@
 
             $todo = file_get_contents("archivo.txt");
             echo "<p>Contenido del archivo: <br/> ".$todo."</p>";
+            fclose($miarchivo);
         }
 
         if(isset($_POST["login"])){
