@@ -3,7 +3,7 @@ let breakMinutes = 5;
 let currentMinutes = workMinutes;
 let seconds = 0;
 let isRunning = false;
-let interval;
+let timeout;
 
 const minutesDisplay = document.getElementById("minutes");
 const secondsDisplay = document.getElementById("seconds");
@@ -17,50 +17,33 @@ function updateDisplay() {
 }
 
 function startTimer() {
-    const audio1 = document.getElementById("comenzar");
-    audio1.play();
     if (!isRunning) {
-        interval = setInterval(() => {
-            if (currentMinutes === 0 && seconds === 0) {
-                endPomodoro();
-            } else {
-                if (seconds === 0) {
-                    if (currentMinutes > 0) {
-                        currentMinutes--;
-                        seconds = 59;
-                    }
-                } else {
-                    seconds--;
-                }
-                updateDisplay();
-            }
-        }, 1000);
         isRunning = true;
         startButton.textContent = "Pausar";
+        countdown();
     } else {
-        clearInterval(interval);
         isRunning = false;
+        clearTimeout(timeout);
         startButton.textContent = "Continuar";
     }
 }
 
 function resetTimer() {
-    clearInterval(interval);
     isRunning = false;
     currentMinutes = workMinutes;
     seconds = 0;
+    clearTimeout(timeout);
     updateDisplay();
     startButton.textContent = "Comenzar";
 }
 
 function stopTimer() {
-    clearInterval(interval);
     isRunning = false;
+    clearTimeout(timeout);
     startButton.textContent = "Comenzar";
 }
 
 function endPomodoro() {
-    clearInterval(interval);
     isRunning = false;
     startButton.textContent = "Comenzar";
 
@@ -77,7 +60,23 @@ function endPomodoro() {
 
     seconds = 0;
     updateDisplay();
+}
 
+function countdown() {
+    if (currentMinutes === 0 && seconds === 0) {
+        endPomodoro();
+    } else {
+        if (seconds === 0) {
+            if (currentMinutes > 0) {
+                currentMinutes--;
+                seconds = 59;
+            }
+        } else {
+            seconds--;
+        }
+        updateDisplay();
+        timeout = setTimeout(countdown, 1000);
+    }
 }
 
 startButton.addEventListener("click", startTimer);
