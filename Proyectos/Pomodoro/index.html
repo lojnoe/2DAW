@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+</head>
+
+<body>
+    <div class="pomodoro">
+        <div class="timer">
+            <div id="minutes">25</div>
+            <div>:</div>
+            <div id="seconds">00</div>
+        </div>
+        <div class="controls">
+            <label for="workMinutes">Minutos de trabajo:</label>
+            <input type="number" id="workMinutes" value="25">
+            <label for="breakMinutes">Minutos de descanso:</label>
+            <input type="number" id="breakMinutes" value="5">
+            <button id="start">Comenzar</button>
+            <button id="reset">Reiniciar</button>
+            <button id="stop">Detener</button>
+        </div>
+    </div>
+    <audio id="audio" src="tu-archivo-de-sonido.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+
+</html>
