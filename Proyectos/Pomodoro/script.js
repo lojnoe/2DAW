@@ -23,8 +23,10 @@ function startTimer() {
                 endPomodoro();
             } else {
                 if (seconds === 0) {
-                    currentMinutes--;
-                    seconds = 59;
+                    if (currentMinutes > 0) {
+                        currentMinutes--;
+                        seconds = 59;
+                    }
                 } else {
                     seconds--;
                 }
