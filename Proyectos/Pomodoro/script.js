@@ -17,6 +17,8 @@ function updateDisplay() {
 }
 
 function startTimer() {
+    const audio1 = document.getElementById("comenzar");
+    audio1.play();
     if (!isRunning) {
         interval = setInterval(() => {
             if (currentMinutes === 0 && seconds === 0) {
@@ -75,6 +77,7 @@ function endPomodoro() {
 
     seconds = 0;
     updateDisplay();
+
 }
 
 startButton.addEventListener("click", startTimer);
