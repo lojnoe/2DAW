@@ -23,12 +23,12 @@ button {
     margin: 10px;
     font-size: 16px;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #4c6faf;
     color: #fff;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #4574a0;
 }   
