@@ -18,6 +18,8 @@ function updateDisplay() {
 
 function startTimer() {
     if (!isRunning) {
+        const audio1 = document.getElementById("comenzar");
+        audio1.play();
         isRunning = true;
         startButton.textContent = "Pausar";
         countdown();
