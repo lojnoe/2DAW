@@ -2,20 +2,19 @@
 
 @section('title','Registro')
 @section('content')
-    <div class="h-screen flex flex-col justify-center items-center bg-blue-100">
-      <h1 class="mb-6 text-2xl">Crear cuenta</h1>  
-      <div class="w-full sm:max-w-md py-4 px-6 bg-white shadow sm:rounded">
+<x-wrapper>
+    <x-slot name="title">Registrar</x-slot>
       <form action="">
             <div>
-                <label class="text-sm text-gray-700">Email</label>
+                <x-label>Email</x-label>
                 <input type="text" name="email" class="rounded shadow border border-gray-300 p-2 mt-1 w-full outline-none">
             </div>
             <div class="mt-4">
-                <label class="text-sm text-gray-700">Nombre</label>
+                <x-label>Nombre</x-label>
                 <input type="text" name="name" class="rounded shadow border border-gray-300 p-2 mt-1 w-full outline-none">
             </div>
             <div class="mt-4">
-                <label class="text-sm text-gray-700">Contraseña</label>
+                <x-label>Contraseña</x-label>
                 <input type="password" name="password" class="rounded shadow border border-gray-300 p-2 mt-1 w-full outline-none">
             </div>
             <div class="flex items-center gap-4 justify-end mt-8">
@@ -25,7 +24,5 @@
                 </button>
             </div>
         </form>
-      </div>
-    </div>
-    
+</x-wrapper>
 @endsection
