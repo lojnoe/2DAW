@@ -17,13 +17,14 @@
 
     <div class="container mx-auto w-25 text-center">
     <?php
+    // comienza la session
         session_start();
-        
+        // comparo y digo si esta iniciad y user_id es admin me muestra las cosas del admin
             if(isset($_SESSION['iniciada']) && $_SESSION['user_id'] == "admin"){
 
             
             ?>
-
+            <!-- formulario decir la hora y el usuario que se ha conectado y para el boton del directorio -->
             <form action="index.php" method="GET" class="text-center">
                 <div class="flex items-center gap-4 justify-center mt-8">
                     <?php
@@ -46,6 +47,7 @@
                 </div>
                 
             </form>
+            <!-- formulario para buscar ficheros -->
             <form action="index.php" method="get">
                     <h3>Buscar Fichero</h3>
                     <input type="text" name="fichero">
@@ -56,7 +58,7 @@
                     <?php
                     //si se ha utilizdo el formulario para buscar ficheros ejecuta el siguiente codigo
                     if (isset($_GET['search'])) {
-                        //linea de texto para dar mas información
+                       
                         echo "Los ficheros que cumplen esos criterios son: <br>";
                         //foreach para mostrar todos los archivos que cumplan el regex de contener la palabra que le indicamos por el formulario
                         // al ser *(cualquier cosa), $_GET['fichero'] (parametro pasado por formulario) y de nuevo *(cualquier cosa)
@@ -67,6 +69,7 @@
                     ?>
                 </div>
             </form>
+            <!-- formulario para escribir el fichero -->
             <form action="index.php" method="get">
                     <h3>Escribir en fichero</h3>
                     <input type="text" name="comentario">
@@ -77,11 +80,13 @@
             </form>
             <div class="flex flex-col items-center gap-4 justify-center mt-8">
                     <?php
+                    // Si le ha dado a enviar, coge el comentario que ha hecho abre el archivo.txt
+                    // y escribe al archivo el comentario 
                     if(isset($_GET['escribir'])){
                                 $comentario = $_GET['comentario'];
                                 $miarchivo = fopen("archivo.txt", "w+");
                                 fwrite($miarchivo, $comentario);
-
+                                // mete la información en una variable y luego la muestra
                                 $todo = file_get_contents("archivo.txt");
                                 echo "<p>Contenido del archivo: <br/> ".$todo."</p>";
                                 fclose($miarchivo);
@@ -96,10 +101,11 @@
                     </div>
                 </form>
                 <?php
-                
+                // comparo si esta iniciada y si el user_id es cliente muestra las cosas de cliente
             }elseif(isset($_SESSION['iniciada']) && $_SESSION['user_id'] == "Cliente1"){
                 
                 ?>
+                <!-- formulario decir la hora y el usuario que se ha conectado y para el boton del directorio -->
                 <form action="index.php" method="GET" class="text-center">
                 <div class="flex items-center gap-4 justify-center mt-8">
                     <?php
@@ -122,6 +128,7 @@
                 </div>
                 
             </form>
+            <!-- formulario para buscar ficheros -->
             <form action="index.php" method="get">
                     <h3>Buscar Fichero</h3>
                     <input type="text" name="fichero">
@@ -143,6 +150,7 @@
                     ?>
                 </div>
             </form>
+            <!-- formulario para leer fichero -->
             <form action="index.php" method="get">
                     <h3>Leer fichero</h3>
                     <br>
@@ -153,16 +161,14 @@
             <div class="flex flex-col items-center gap-4 justify-center mt-8">
                     <?php
                     if(isset($_GET['escribir'])){
-                                //IMPORTANTE EL FICHERO comentarios.txt DEBE EXISTIR PARA PODER ABRIRLO SI NO DARA FALLO
+                        //IMPORTANTE EL FICHERO archivo.txt DEBE EXISTIR PARA PODER ABRIRLO SI NO DARA FALLO
                         //como solo tiene permisos de lectura lo abrimo con r solo dandole solo esos permisos 
                         $archivo = fopen("archivo.txt", "r");
                         //cerramos el fichero
                         fclose($archivo);
-                        //con esto mostramos el contenido del documento
+                         // mete la información en una variable y luego la muestra
                         $completo = file_get_contents("archivo.txt");
-                        //linea de texto para dar mas información
                         echo "La información del fichero es: <br>";
-                        //imprimir el contenido almazenado en la variable con todo el documento
                         echo $completo;
                             }
                     
