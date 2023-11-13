@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\EjemploClase;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Alumnos;
 
 
 /*
@@ -20,4 +20,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/obtener',[EjemploClase::class,'obtener'])->name('page.thread');
+Route::get('/obtener',[EjemploClase::class,'obtener']);

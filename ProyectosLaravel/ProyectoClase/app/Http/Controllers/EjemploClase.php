@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class EjemploClase extends Controller
 {
-    public function FunctionName() {
-        dd(Alumnos::obtenerTodos());
+    public function obtener() {
+       return Alumnos::obtenerTodos();
     }
 }
