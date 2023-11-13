@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     use HasFactory;
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
 }
