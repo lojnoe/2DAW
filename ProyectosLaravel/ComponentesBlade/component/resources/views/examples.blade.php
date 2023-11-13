@@ -21,5 +21,59 @@
         <x-flash type="error"> Mensaje de error</x-flash>
         <x-flash type="info"> Mensaje de informacion</x-flash>
         <x-flash type="warning"> Mensaje de advertencia</x-flash>
+
+        <hr class="my-4">
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <x-card
+                img="https://images.unsplash.com/photo-1543722530-d2c3201371e7"
+                date="Noviembre,2023"
+                title="Ejemplo"
+                content="Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo "
+            ></x-card>
+            <x-card
+                img="https://images.unsplash.com/photo-1543722530-d2c3201371e7"
+                date="Noviembre,2023"
+                title="Ejemplo"
+                content="Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo "
+            ></x-card>
+            <x-card
+                img="https://images.unsplash.com/photo-1543722530-d2c3201371e7"
+                date="Noviembre,2023"
+                title="Ejemplo"
+                content="Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo "
+            ></x-card>
+            <x-card
+                img="https://images.unsplash.com/photo-1543722530-d2c3201371e7"
+                date="Noviembre,2023"
+                title="Ejemplo"
+                content="Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo "
+            ></x-card>
+            <x-card
+                img="https://images.unsplash.com/photo-1543722530-d2c3201371e7"
+                date="Noviembre,2023"
+                title="Ejemplo"
+                content="Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo "
+            ></x-card>
+            <x-card
+                img="https://images.unsplash.com/photo-1543722530-d2c3201371e7"
+                date="Noviembre,2023"
+                title="Ejemplo"
+                content="Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo Ejemplo "
+            ></x-card>
+            
+        </div>
+        <hr class="my-4">
+
+        <x-youtube  url="https://www.youtube.com/embed/HmJkkRpEHoM?si=nBdZcCiKHfBo8wsA"></x-youtube>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <x-youtube url="https://www.youtube.com/embed/HmJkkRpEHoM?si=nBdZcCiKHfBo8wsA"></x-youtube>
+            <x-youtube  url="https://www.youtube.com/embed/HmJkkRpEHoM?si=nBdZcCiKHfBo8wsA"></x-youtube>
+            <x-youtube  url="https://www.youtube.com/embed/HmJkkRpEHoM?si=nBdZcCiKHfBo8wsA"></x-youtube>
+            <x-youtube  url="https://www.youtube.com/embed/HmJkkRpEHoM?si=nBdZcCiKHfBo8wsA"></x-youtube>
+
+            
+        </div>
     </div>
 @endsection
