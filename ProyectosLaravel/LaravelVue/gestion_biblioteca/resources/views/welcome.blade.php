@@ -6,13 +6,13 @@
 
         <title>Laravel con Vue</title>
 
-        @vite('resource/css/app.css')
+        @vite('resources/css/app.css')
     </head>
     <body class="">
         <div id="app">
 
         </div>
 
-        @vite('resource/js/app.js')
+        @vite('resources/js/app.js')
     </body>
 </html>

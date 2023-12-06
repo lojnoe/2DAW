@@ -12,7 +12,7 @@ class BookCategory extends Model
     protected $table = 'book_category';
 
     public function book(){
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Books::class);
     }
     public function category(){
         return $this->belongsTo(Category::class);
