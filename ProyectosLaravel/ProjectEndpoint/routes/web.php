@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AnimalesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/dameanimal',[AnimalesController::class,'getAnimales']);
+Route::get('/vista', function () {
+    return view('vista');
 });
