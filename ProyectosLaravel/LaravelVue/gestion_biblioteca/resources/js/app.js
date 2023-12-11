@@ -9,4 +9,4 @@ import router from "./router";
 import '../css/app.css';
 
 
-createApp(HelloWorld).use(router).mount("#app");
+createApp(BookList).use(router).mount("#app");
