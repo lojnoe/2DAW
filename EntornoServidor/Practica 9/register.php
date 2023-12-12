@@ -11,16 +11,14 @@ if (isset($_POST['register'])) {
         // comprueba si es usuario o admin
         $sql = "INSERT INTO users (user, email, password)
         VALUES ('$user','$email','$password') ";
+        if(mysqli_query($conexion, $sql)){
+          echo ("Registro completo");
+          // header('Location: index.html');
+        } else {
+          echo("Registro fallido");
+        }
     }else{
-        
-    }
-    
-
-
-    if(mysqli_query($conexion, $sql)){
-      echo ("Almacenado");
-    } else {
-      echo("Fallido");
+      echo "Las contraseñas no coinciden";
     }
     
 }

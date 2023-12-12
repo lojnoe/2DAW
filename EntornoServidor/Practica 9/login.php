@@ -23,5 +23,27 @@
         header("Location: index.html");
     }
 	}
-
+    require_once 'conexion.php';
+    if (isset($_POST['register'])) {
+        //almacena las variables del formulario login
+        $user = $_POST["user"];
+        $password = $_POST["password"];
+    
+        if($password == $reppasword){
+            // comprueba si es usuario o admin
+            $sql = "INSERT INTO users (user, email, password)
+            VALUES ('$user','$email','$password') ";
+            if(mysqli_query($conexion, $sql)){
+              echo ("Registro completo");
+              // header('Location: index.html');
+            } else {
+              echo("Inicio de sesion  fallido");
+            }
+        }else{
+          echo "Las contraseñas no coinciden";
+          header("Location: reg.html");
+        }
+        
+    }
+    
 ?>
