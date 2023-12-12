@@ -12,7 +12,7 @@ if ($result->num_rows > 0) {
         echo "Título: " . $row['title'] . "<br>";
         echo "Director: " . $row['director'] . "<br>";
         echo "Año: " . $row['year'] . "<br>";
-        echo "Enlace de la portada: " . $row['cover_link'] . "<br>";
+        echo "Portada: <img style='heigth:200px; width:200px;'src='data:image/jpeg;base64," . base64_encode($row['cover_link']) . "' alt='Portada'> <br>";
         echo "<hr>";
     }
 } else {
