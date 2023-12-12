@@ -1,5 +1,6 @@
 <?php
 require_once 'conexion.php';
+session_start();
 if (isset($_POST['register'])) {
     //almacena las variables del formulario login
     $user = $_POST["user"];
@@ -9,18 +10,21 @@ if (isset($_POST['register'])) {
 
     if($password == $reppasword){
         // comprueba si es usuario o admin
-        $sql = "INSERT INTO users (user, email, password)
+        $sql = "INSERT INTO users (name, email, password)
         VALUES ('$user','$email','$password') ";
         if(mysqli_query($conexion, $sql)){
+          $_SESSION['user'] = $user;
           echo ("Registro completo");
-          // header('Location: index.html');
+          header('Location: index.html');
         } else {
           echo("Registro fallido");
+          header('Location: register.html');
         }
     }else{
       echo "Las contraseñas no coinciden";
+      header('Location: register.html');
     }
     
 }
-
+  
 ?>
