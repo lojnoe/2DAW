@@ -16,6 +16,7 @@ if (isset($_POST['login'])) {
 
     if ($result->num_rows > 0) {
         // Inicio de sesión exitoso
+        $_SESSION['iniciada'] = true;
         $_SESSION['username'] = $username;
         header('Location: index.php');
         exit();

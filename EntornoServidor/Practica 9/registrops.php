@@ -12,9 +12,9 @@ if (isset($_POST['register'])) {
     // Verifica si las contraseñas coinciden
     if ($password == $reppassword) {
         // Verifica si el usuario ya existe en la base de datos
-        $check_user_query = "SELECT * FROM users WHERE user = $user";
+        $check_user_query = "SELECT * FROM users WHERE name = ?";
         $stmt_check_user = $conexion->prepare($check_user_query);
-        $stmt_check_user->bind_param(':user', $user);
+        $stmt_check_user->bind_param('ss', $user);
         $stmt_check_user->execute();
         $result_check_user = $stmt_check_user->get_result();
 
@@ -32,9 +32,10 @@ if (isset($_POST['register'])) {
             // Ejecuta la sentencia
             if ($stmt_insert_user->execute()) {
                 // Registro completo, establece la sesión del usuario
+                $_SESSION['iniciada'] = true;
                 $_SESSION['user'] = $user;
                 echo "Registro completo";
-                header('Location: index.html');
+                header('Location: index.php');
                 exit(); // Asegura que el script se detenga después de la redirección
             } else {
                 echo "Registro fallido";

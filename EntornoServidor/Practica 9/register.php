@@ -13,9 +13,10 @@ if (isset($_POST['register'])) {
         $sql = "INSERT INTO users (name, email, password)
         VALUES ('$user','$email','$password') ";
         if(mysqli_query($conexion, $sql)){
+          $_SESSION['iniciada'] = true;
           $_SESSION['user'] = $user;
           echo ("Registro completo");
-          header('Location: index.html');
+          header('Location: index.php');
         } else {
           echo("Registro fallido");
           header('Location: register.html');
