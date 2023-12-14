@@ -94,9 +94,7 @@
             // Cerrar la conexión
             $conexion->close();
         }
-    } else {
-        header('Location: login.html');
-    }
+    
 
 
     ?>
@@ -122,7 +120,7 @@
             </div>
             <div class="form-outline mb-4">
                 <label class="form-label" for="foto">Foto</label>
-                <input type="file" name="foto" accept="image/*" class="form-control" />
+                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control" />
             </div>
             <input type="submit" name="enviar" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"" value=" Enviar">
     </div>
@@ -132,51 +130,50 @@
     // Asegúrate de tener el archivo de conexión incluido
 
     if (isset($_SESSION['iniciada'])) {
-        if (isset($_POST['enviar'])) {
+        if (isset($_POST['enviar']) && isset($_FILES["fileToUpload"])) {
             $titulo = $_POST['titulo'];
             $director = $_POST['director'];
             $año = $_POST['año'];
             $descripcion = $_POST['descripcion'];
-
-            if (isset($_FILES["foto"]["tmp_name"]) && !empty($_FILES["foto"]["tmp_name"])) {
-                $servidor = "localhost";
-                $usuario = "root";
-                $pass = "";
-                $basedatos = "practica";
-
-                $contenido_binario = file_get_contents($_FILES["foto"]["tmp_name"]);
-
-                // Convierte el contenido binario a una cadena base64
-                $codigo_base64 = base64_encode($contenido_binario);
-
-                $conexion = mysqli_connect($servidor, $usuario, $pass) or die("Error de conexión");
-
-                //Seleccionamos la Base de Datos
-                mysqli_select_db($conexion, $basedatos);
-
-
-
-                // Query para insertar la imagen en la base de datos junto con otros datos
-                $query = "INSERT INTO top_movies (title, director, year, cover_link, description) VALUES (?, ?, ?, ?, ?)";
-                $stmt = $conexion->prepare($query);
-                $stmt->bind_param("sssss", $titulo, $director, $año, $codigo_base64, $descripcion);
-                $stmt->execute();
-                // Cierra la conexión
-                $conexion->close();
-                // Verifica si la inserción fue exitosa
-                if ($stmt->affected_rows > 0) {
-                    echo "La película se agregó correctamente con la foto.";
+    
+            $servidor = "localhost";
+            $usuario = "root";
+            $pass = "";
+            $basedatos = "practica";
+    
+            $conexion = mysqli_connect($servidor, $usuario, $pass) or die("Error de conexión");
+    
+            //Seleccionamos la Base de Datos
+            mysqli_select_db($conexion, $basedatos);
+            $target_dir = "uploads/";
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    
+            // Asignar valores a los parámetros
+            $contenidoArchivo = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
+    
+            $query = "INSERT INTO top_movies (title, director, year, cover_link, description) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $conexion->prepare($query);
+            $stmt->bind_param("sssss", $titulo, $director, $año, $contenidoArchivo, $descripcion);
+            
+            if ($stmt->execute()) {
+                // Mover el archivo al directorio de destino
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    echo "La película se ha agregado con éxito.";
                 } else {
-                    echo "Error al agregar la película: " . $stmt->error;
+                    echo "Hubo un error al subir el archivo.";
                 }
-
-                // Cierra el statement
-                $stmt->close();
             } else {
-                echo "Error al subir la foto.";
+                echo "Error al ejecutar la consulta: " . $stmt->error;
             }
+    
+            $stmt->close();
+            $conexion->close();
         }
+}
+        
 
+        // Cerrar la conexión
+        
         if (isset($_POST['eliminar'])) {
             $servidor = "localhost";
             $usuario = "root";
@@ -242,12 +239,11 @@
             $stmt->close();
             $conexion->close();
         }
-    } else {
-        header('Location: login.html');
-    }
+    
 
-
-
+    }else {
+            header('Location: login.html');
+        }
     ?>
     <section class="text-center">
         <form action="logout.php" method="post">
