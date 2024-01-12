@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQUERY</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .mostrar {
+            display: block;
+        }
+    
+        .oculto {
+            display: none;
+        }
+    
+        .dark-mode {
+            
+            color: white;
+            background-color: gray;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <h1>Ejercicios JQUERY</h1>
+    <ol>
+        <li>Una caja de texto donde el usuario introduce la información.</li>
+        <li>Botón de añadir título H1 (Esta opción debe desaparecer al añadir el título, es decir, solo puede haber un
+            H1).</li>
+        <li>Botón cambiar H1 (Este botón solo debe aparecer si se ha introducido un H1).</li>
+        <li>Botón de añadir título H2.</li>
+        <li>Botón de añadir título H3.</li>
+        <li>Botón de añadir párrafo.</li>
+        <li>Botón para añadir imagen desde url.</li>
+        <li>Botón para cambiar la fuente de texto de todo el artículo.</li>
+        <li>Botón para cambiar el color de fondo del artículo.</li>
+        <li>Botón para cambiar el color de todo el texto del artículo.</li>
+        <li>Botón "deshacer" que elimina el último elemento introducido en el artículo.</li>
+        <li>Botón para eliminar el artículo y empezar de 0.</li>
+        <li>Botón para alternar "modo oscuro" (fondo negro y texto blanco).</li>
+        <li>Botón para alternar entre mostrar imágenes o no [ Las imágenes deben desvanecerse ("fade") ].</li>
+    </ol>
+    <div id="articulo">
+
+    </div>
+    <div id="cont">
+        <textarea id="text-input" placeholder="Introduce tu información aquí"></textarea><br>
+    </div>
+
+    <button id="añadirh1">Añadir Título H1</button>
+    <button id="cambiarh1" style="display: none;">Cambiar H1</button>
+    <button id="añadirh2">Añadir Título H2</button>
+    <button id="añadirh3">Añadir Título H3</button>
+    <button id="añadirparrafo">Añadir Párrafo</button>
+    <button id="añadirimagen">Añadir Imagen</button>
+    <button id="cambiarfuente">Cambiar Fuente</button>
+    <button id="cambiarbackground">Cambiar Color de Fondo</button>
+    <button id="cambiarcolor">Cambiar Color de Texto</button>
+    <button id="deshacer">Deshacer</button>
+    <button id="elimiar">Eliminar Artículo</button>
+    <button id="modooscuro">Alternar Modo Oscuro</button>
+    <button id="cambiarimaganes">Alternar Imágenes</button>
+
+    <script>
+        $(document).ready(function () {
+
+            var article = $("#articulo");
+
+            $("#añadirh1").click(function () {
+                var inputText = $("#text-input").val();
+                if (inputText !== "") {
+                    $("#añadirh1").hide();
+
+                    $("#cambiarh1").css("display", "block");
+                    $("#articulo").html("<h1>" + inputText + "</h1>");
+
+                }
+
+            });
+
+            $("#cambiarh1").click(function () {
+                var inputText = $("#text-input").val();
+                $("#articulo").html("<h1>" + inputText + "</h1>");
+            });
+
+
+            $("#añadirh2").click(function () {
+                var inputText = $("#text-input").val();
+                if (inputText !== "") {
+                    article.append("<h2>" + inputText + "</h2>");
+                }
+            });
+
+            $("#añadirh3").click(function () {
+                var inputText = $("#text-input").val();
+                if (inputText !== "") {
+                    article.append("<h3>" + inputText + "</h3>");
+                }
+            });
+
+            $("#añadirparrafo").click(function () {
+                var inputText = $("#text-input").val();
+                if (inputText !== "") {
+                    article.append("<p>" + inputText + "</p>");
+                }
+            });
+            $("#añadirimagen").click(function () {
+                var imageUrl = $("#text-input").val();
+                if (imageUrl !== null && imageUrl !== "") {
+                    article.append("<img src='" + imageUrl + "' alt='Imagen'>");
+                }
+            });
+
+            $("#cambiarfuente").click(function () {
+                var font = $("#text-input").val();
+                if (font !== null && font !== "") {
+                    article.css("font-family", font);
+                }
+            });
+            $("#cambiarbackground").click(function () {
+                var color = $("#text-input").val();
+                if (color !== null && color !== "") {
+                    article.css("background-color", color);
+                }
+            });
+
+            $("#cambiarcolor").click(function () {
+                var color = $("#text-input").val();
+                if (color !== null && color !== "") {
+                    article.css("color", color);
+                }
+            });
+
+            $("#deshacer").click(function () {
+                article.children().last().remove();
+            });
+
+            $("#elimiar").click(function () {
+                article.empty();
+                $("#añadirh1").show();
+                $("#cambiarh1").hide();
+            });
+
+            $("#modooscuro").click(function () {
+                $("body").toggleClass("dark-mode");
+                article.toggleClass("dark-mode");
+            });
+
+            $("#cambiarimaganes").click(function () {
+                article.find("img").fadeToggle();
+            });
+        });
+    </script>
+</body>
+
+</html>
