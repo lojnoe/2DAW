@@ -18,7 +18,7 @@
         .dark-mode {
             
             color: white;
-            background-color: gray;
+            background-color: #111111;
         }
     </style>
     
@@ -47,7 +47,7 @@
 
     </div>
     <div id="cont">
-        <textarea id="text-input" placeholder="Introduce tu información aquí"></textarea><br>
+        <textarea id="text-input"  placeholder="Introduce tu información aquí"></textarea><br>
     </div>
 
     <button id="añadirh1">Añadir Título H1</button>
@@ -63,7 +63,7 @@
     <button id="elimiar">Eliminar Artículo</button>
     <button id="modooscuro">Alternar Modo Oscuro</button>
     <button id="cambiarimaganes">Alternar Imágenes</button>
-
+    <!-- https://i.pinimg.com/236x/93/61/16/936116da60340f251d2bb170a8869d2c.jpg -->
     <script>
         $(document).ready(function () {
 
@@ -75,7 +75,7 @@
                     $("#añadirh1").hide();
 
                     $("#cambiarh1").css("display", "block");
-                    $("#articulo").html("<h1>" + inputText + "</h1>");
+                    article.append("<h1>" + inputText + "</h1>");
 
                 }
 
