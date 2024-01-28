@@ -83,6 +83,9 @@ const App = () => {
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [gameInProgress, setGameInProgress] = useState(true);
   const [showRestartButton, setShowRestartButton] = useState(false);
+  const [messages, setMessages] = useState([]);
+
+
   // Efecto para inicializar la baraja y repartir las cartas al comienzo del juego
   useEffect(() => {
     if (!gameInProgress) return;
@@ -115,7 +118,9 @@ const App = () => {
       setPlayerCards([...playerCards, card]);
       setGameInProgress(false);
       setShowRestartButton(true);
-      console.log("¡Te has pasado de 21! ¡Has perdido!");
+      const newMessage = "¡Te has pasado de 21! ¡Has perdido!";
+      setMessages([...messages, newMessage]);
+      
 
       // Aquí puedes manejar la lógica para indicar al jugador que ha perdido, como actualizar el estado o mostrar un mensaje al usuario
     } else {
@@ -133,6 +138,7 @@ const App = () => {
     let pierde;
     let dealerHand = [...dealerCards];
     let suma = calculateScore(dealerHand);
+    
     // Repartir cartas al crupier hasta que la suma sea 17 o más o hasta que pierda (suma > 21)
     while (suma < 17 && !pierde) {
       const card = shuffledDeck.pop();
@@ -149,6 +155,7 @@ const App = () => {
     setDealerCards(dealerHand);
 
     const result = compareScores();
+    console.log(suma)
     console.log(result);
 
   };
@@ -159,35 +166,44 @@ const App = () => {
   };
 
   // Calcular puntajes del jugador y del crupier
-  const playerScore = calculateScore(playerCards);
-  const dealerScore = calculateScore(dealerCards);
+  let playerScore = calculateScore(playerCards);
+  let dealerScore = calculateScore(dealerCards);
 
   const compareScores = () => {
-    const playerScore = calculateScore(playerCards);
-    const dealerScore = calculateScore(dealerCards);
-
+    playerScore = calculateScore(playerCards);
+    dealerScore = calculateScore(dealerCards);
+    let newMessage = " ";
     if (playerScore === 21 && playerCards.length === 2) {
       // Blackjack del jugador
+      newMessage = "¡Blackjack! El jugador gana.";
       return "¡Blackjack! El jugador gana.";
     } else if (dealerScore === 21 && dealerCards.length === 2) {
       // Blackjack del crupier
+      newMessage = "¡Blackjack! El crupier gana.";
       return "¡Blackjack! El crupier gana.";
     } else if (playerScore > 21) {
       // El jugador ha perdido
-      return "El jugador ha perdido.";
+      newMessage = "¡Te has pasado de 21! ¡Has perdido.";
+      return "¡Te has pasado de 21! ¡Has perdido.";
     } else if (dealerScore > 21) {
       // El crupier ha perdido
+      newMessage = "El crupier ha perdido.";
       return "El crupier ha perdido.";
     } else if (playerScore > dealerScore) {
       // El jugador gana
+      newMessage = "El jugador gana.";
       return "El jugador gana.";
     } else if (dealerScore > playerScore) {
       // El crupier gana
+      newMessage = "El crupier gana.";
       return "El crupier gana.";
-    } else {
+    } else  {
       // Empate
+      newMessage = "¡Es un empate!";
       return "¡Es un empate!";
+      
     }
+    
   };
 
   const handleRestart = () => {
@@ -198,6 +214,7 @@ const App = () => {
     setDealerCards([]);
     setHitCard([]);
     setShowDealerFirstCard(false);
+    setMessages([]);
     setShuffledDeck(shuffleDeck([...baraja_inicial]));
   };
   // Interfaz de usuario
@@ -235,7 +252,13 @@ const App = () => {
             />
           ))}
         </div>
+        <div>
+          {messages.map((message, index) => (
+            <p key={index}>{message}</p>
+          ))}
+        </div>
       </div>
+
     </div>
   );
 };
