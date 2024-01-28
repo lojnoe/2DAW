@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
@@ -59,25 +58,191 @@ const baraja_inicial = [
   { nombre: 'ace_of_spades.png', valor: 11 },
 ];
 
+// Función para barajar la baraja de cartas usando el algoritmo Fisher-Yates
 function shuffleDeck(deck) {
-  // Create a copy of the original array to avoid modifying the original array
+  // Crear una copia del array original para evitar modificarlo
   const shuffledDeck = [...deck];
 
-  // Fisher-Yates shuffle algorithm
+  // Algoritmo de barajado Fisher-Yates
   for (let i = shuffledDeck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    // Swap elements at indices i and j
+    // Intercambiar elementos en los índices i y j
     [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
   }
 
   return shuffledDeck;
 }
 
-// Baraja el deck al comienzo
-
-
+// Componente principal de la aplicación
 const App = () => {
-  /* Estados para la baraja de cartas, mano del jugador, mano del crupier y estado del juego
+  // Estados para las cartas del jugador, del crupier, carta extra, etc.
+  const [playerCards, setPlayerCards] = useState([]);
+  const [dealerCards, setDealerCards] = useState([]);
+  const [hitCard, setHitCard] = useState([]);
+  const [showDealerFirstCard, setShowDealerFirstCard] = useState(false);
+  const [shuffledDeck, setShuffledDeck] = useState([]);
+  const [gameInProgress, setGameInProgress] = useState(true);
+  const [showRestartButton, setShowRestartButton] = useState(false);
+  // Efecto para inicializar la baraja y repartir las cartas al comienzo del juego
+  useEffect(() => {
+    if (!gameInProgress) return;
+    // Barajar la baraja inicial y establecerla en el estado
+    const initialDeck = shuffleDeck([...baraja_inicial]);
+    setShuffledDeck(initialDeck);
+
+    // Repartir cartas al jugador y al crupier al principio del juego
+    const initialPlayerCards = [initialDeck.pop()];
+    setPlayerCards(initialPlayerCards);
+
+    const initialDealerCards = [initialDeck.pop(), { nombre: 'back.png', valor: 0 }];
+    setDealerCards(initialDealerCards);
+  }, [gameInProgress]);
+
+  // Función para tomar una carta extra ("hit")
+  const handleHit = () => {
+
+    if (!gameInProgress) return;
+
+    const card = shuffledDeck.pop(); // Sacar una carta del mazo barajado
+    setHitCard(card); // Establecer la carta extra en el estado
+    const updatedPlayerCards = [...playerCards, card]; // Añadir la carta extra a la mano del jugador
+
+    // Calcular la puntuación del jugador con la nueva carta
+    const updatedPlayerScore = calculateScore(updatedPlayerCards);
+
+    // Verificar si el jugador se ha pasado de 21
+    if (updatedPlayerScore > 21) {
+      setPlayerCards([...playerCards, card]);
+      setGameInProgress(false);
+      setShowRestartButton(true);
+      console.log("¡Te has pasado de 21! ¡Has perdido!");
+
+      // Aquí puedes manejar la lógica para indicar al jugador que ha perdido, como actualizar el estado o mostrar un mensaje al usuario
+    } else {
+      setPlayerCards([...playerCards, card]); // Actualizar la mano del jugador solo si no se ha pasado de 21
+    }
+
+
+
+  };
+
+  // Función para manejar la acción de plantarse
+  const handleStand = () => {
+    if (!gameInProgress) return;
+    setShowDealerFirstCard(true);
+    let pierde;
+    let dealerHand = [...dealerCards];
+    let suma = calculateScore(dealerHand);
+    // Repartir cartas al crupier hasta que la suma sea 17 o más o hasta que pierda (suma > 21)
+    while (suma < 17 && !pierde) {
+      const card = shuffledDeck.pop();
+      dealerHand = [...dealerHand, card];
+      suma = calculateScore(dealerHand); // Actualizar la suma de la mano del crupier
+      if (suma > 21) {
+        pierde = true;
+        setGameInProgress(false);
+        setShowRestartButton(true);// Si la suma supera 21, el crupier pierde
+      }
+    }
+    // Eliminar la carta oculta de la mano del crupier
+    dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
+    setDealerCards(dealerHand);
+
+    const result = compareScores();
+    console.log(result);
+
+  };
+
+  // Función para calcular el valor total de las cartas
+  const calculateScore = (cards) => {
+    return cards.reduce((total, card) => total + card.valor, 0);
+  };
+
+  // Calcular puntajes del jugador y del crupier
+  const playerScore = calculateScore(playerCards);
+  const dealerScore = calculateScore(dealerCards);
+
+  const compareScores = () => {
+    const playerScore = calculateScore(playerCards);
+    const dealerScore = calculateScore(dealerCards);
+
+    if (playerScore === 21 && playerCards.length === 2) {
+      // Blackjack del jugador
+      return "¡Blackjack! El jugador gana.";
+    } else if (dealerScore === 21 && dealerCards.length === 2) {
+      // Blackjack del crupier
+      return "¡Blackjack! El crupier gana.";
+    } else if (playerScore > 21) {
+      // El jugador ha perdido
+      return "El jugador ha perdido.";
+    } else if (dealerScore > 21) {
+      // El crupier ha perdido
+      return "El crupier ha perdido.";
+    } else if (playerScore > dealerScore) {
+      // El jugador gana
+      return "El jugador gana.";
+    } else if (dealerScore > playerScore) {
+      // El crupier gana
+      return "El crupier gana.";
+    } else {
+      // Empate
+      return "¡Es un empate!";
+    }
+  };
+
+  const handleRestart = () => {
+    // Reiniciar el juego
+    setGameInProgress(true);
+    setShowRestartButton(false);
+    setPlayerCards([]);
+    setDealerCards([]);
+    setHitCard([]);
+    setShowDealerFirstCard(false);
+    setShuffledDeck(shuffleDeck([...baraja_inicial]));
+  };
+  // Interfaz de usuario
+  return (
+    <div>
+      <div>
+        <div>
+          <h2>Puntuación del Crupier: {dealerScore}</h2>
+          {/* Mostrar las cartas del crupier, ocultando la primera carta si aún no se ha revelado */}
+          {dealerCards.map((card, index) => (
+            <img
+              key={index}
+              src={`./assets/PNG/${showDealerFirstCard || index === 0 ? card.nombre : 'back.png'}`}
+              alt={card.nombre}
+              style={{ width: '100px', height: '150px' }}
+            />
+          ))}
+        </div>
+        <div>
+          {/* Botones para pedir una carta adicional ("hit") o plantarse */}
+          <button onClick={handleHit} disabled={!gameInProgress}>Pedir carta</button>
+          <button onClick={handleStand} disabled={!gameInProgress}>Plantarse</button>
+
+          {showRestartButton && <button onClick={handleRestart}>Reiniciar Partida</button>}
+        </div>
+        <div>
+          <h2>Puntuación del Jugador: {playerScore}</h2>
+          {/* Mostrar las cartas del jugador */}
+          {playerCards.map((card, index) => (
+            <img
+              key={index}
+              src={`./assets/PNG/${card.nombre}`}
+              alt={card.nombre}
+              style={{ width: '100px', height: '150px' }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+
+/* Estados para la baraja de cartas, mano del jugador, mano del crupier y estado del juego
   const [deck, setDeck] = useState([]);
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerHand, setDealerHand] = useState([]);
@@ -85,26 +250,7 @@ const App = () => {
   const [hitCard,setHitCard] = useState([]);
   */
 
-  const [playerCards, setPlayerCards] = useState([]);
-  const [dealerCards, setDealerCards] = useState([]);
-  const [hitCard, setHitCard] = useState([]);
-  const [showDealerFirstCard, setShowDealerFirstCard] = useState(false);
-  const [shuffledDeck, setShuffledDeck] = useState([]);
-
-  useEffect(() => {
-    const initialDeck = shuffleDeck([...baraja_inicial]); // Barajar la baraja inicial
-    setShuffledDeck(initialDeck); // Establecer la baraja barajada en el estado
-
-    // Repartir cartas al jugador y al crupier al principio del juego
-    const initialPlayerCards = [initialDeck.pop()]; // Sacar una carta para el jugador
-    setPlayerCards(initialPlayerCards); // Establecer la mano del jugador en el estado
-
-    const initialDealerCards = [initialDeck.pop(), { name: 'back.png', value: 0 }]; // Sacar una carta para el crupier y poner otra carta oculta
-    setDealerCards(initialDealerCards); // Establecer la mano del crupier en el estado
-  }, []);
-
-
-  /* Función para inicializar la baraja con el array de cartas
+/* Función para inicializar la baraja con el array de cartas
   const initializeDeck = () => {
     // Copiar el array de cartas para evitar mutar el original
     const newDeck = [...baraja_inicial];
@@ -132,78 +278,3 @@ const App = () => {
     return deck.pop();
   };
 */
-
-
-// Funcion para meter una carta al pulsar el boton.
-  const handleHit = () => {
-    const card = shuffledDeck.pop(); // saca una carta 
-    setHitCard(card); // establece la carta extra en el mazo
-    setPlayerCards([...playerCards, card]); // y la incluye en el mazo
-  }
-
-
-// Función para manejar la acción de plantarse
-const handleStand = () => {
-  setShowDealerFirstCard(true);
-
-  // Draw cards for the dealer until the sum is 17 or higher
-  let dealerHand = [...dealerCards];
-  while (calculateScore(dealerHand) < 17) {
-    const card = shuffledDeck.pop();
-    dealerHand = [...dealerHand, card];
-  }
-
-  // Remove the hidden card from the dealer's hand
-  dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
-  setDealerCards(dealerHand);
-};
-// Funcion para calcular la puntuacion de las manos
-const calculateScore = (cards) => {
-  return cards.reduce((total, card) => total + card.valor, 0);
-};
-// Calcular el puntaje del jugador y del crupier
-const playerScore = calculateScore(playerCards);
-const dealerScore = calculateScore(dealerCards);
-
-
-
-
-  return (
-    <div>
-      {/* Interfaz de usuario */}
-      <div>
-        <div>
-          <h2>Dealer Score: {dealerScore}</h2>
-          {/* Mostrar las cartas del crupier, ocultando la primera carta si aún no se ha revelado */}
-          {dealerCards.map((card, index) => (
-            <img
-              key={index}
-              src={`./assets/PNG/${showDealerFirstCard || index === 0 ? card.nombre : 'back.png'}`}
-              alt={card.nombre}
-              style={{ width: '100px', height: '150px' }}
-            />
-          ))}
-        </div>
-        <div>
-          {/* Botones para pedir una carta adicional ("hit") o plantarse */}
-          <button onClick={handleHit}>Hit</button>
-          <button onClick={handleStand}>Stand</button>
-        </div>
-        <div>
-          <h2>Player Score: {playerScore}</h2>
-          {/* Mostrar las cartas del jugador */}
-          {playerCards.map((card, index) => (
-            <img
-              key={index}
-              src={`./assets/PNG/${card.nombre}`}
-              alt={card.nombre}
-              style={{ width: '100px', height: '150px' }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;
