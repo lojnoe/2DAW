@@ -13,9 +13,9 @@ const baraja_inicial = [
   { nombre: '8_of_clubs.png', valor: 8 },
   { nombre: '9_of_clubs.png', valor: 9 },
   { nombre: '10_of_clubs.png', valor: 10 },
-  { nombre: 'jack_of_clubs.png', valor: 10 },
-  { nombre: 'queen_of_clubs.png', valor: 10 },
-  { nombre: 'king_of_clubs.png', valor: 10 },
+  { nombre: 'jack_of_clubs2.png', valor: 10 },
+  { nombre: 'queen_of_clubs2.png', valor: 10 },
+  { nombre: 'king_of_clubs2.png', valor: 10 },
   { nombre: 'ace_of_clubs.png', valor: 11 },
   { nombre: '2_of_diamonds.png', valor: 2 },
   { nombre: '3_of_diamonds.png', valor: 3 },
@@ -26,9 +26,9 @@ const baraja_inicial = [
   { nombre: '8_of_diamonds.png', valor: 8 },
   { nombre: '9_of_diamonds.png', valor: 9 },
   { nombre: '10_of_diamonds.png', valor: 10 },
-  { nombre: 'jack_of_diamonds.png', valor: 10 },
-  { nombre: 'queen_of_diamonds.png', valor: 10 },
-  { nombre: 'king_of_diamonds.png', valor: 10 },
+  { nombre: 'jack_of_diamonds2.png', valor: 10 },
+  { nombre: 'queen_of_diamonds2.png', valor: 10 },
+  { nombre: 'king_of_diamonds2.png', valor: 10 },
   { nombre: 'ace_of_diamonds.png', valor: 11 },
   { nombre: '2_of_hearts.png', valor: 2 },
   { nombre: '3_of_hearts.png', valor: 3 },
@@ -39,9 +39,9 @@ const baraja_inicial = [
   { nombre: '8_of_hearts.png', valor: 8 },
   { nombre: '9_of_hearts.png', valor: 9 },
   { nombre: '10_of_hearts.png', valor: 10 },
-  { nombre: 'jack_of_hearts.png', valor: 10 },
-  { nombre: 'queen_of_hearts.png', valor: 10 },
-  { nombre: 'king_of_hearts.png', valor: 10 },
+  { nombre: 'jack_of_hearts2.png', valor: 10 },
+  { nombre: 'queen_of_hearts2.png', valor: 10 },
+  { nombre: 'king_of_hearts2.png', valor: 10 },
   { nombre: 'ace_of_hearts.png', valor: 11 },
   { nombre: '2_of_spades.png', valor: 2 },
   { nombre: '3_of_spades.png', valor: 3 },
@@ -52,9 +52,9 @@ const baraja_inicial = [
   { nombre: '8_of_spades.png', valor: 8 },
   { nombre: '9_of_spades.png', valor: 9 },
   { nombre: '10_of_spades.png', valor: 10 },
-  { nombre: 'jack_of_spades.png', valor: 10 },
-  { nombre: 'queen_of_spades.png', valor: 10 },
-  { nombre: 'king_of_spades.png', valor: 10 },
+  { nombre: 'jack_of_spades2.png', valor: 10 },
+  { nombre: 'queen_of_spades2.png', valor: 10 },
+  { nombre: 'king_of_spades2.png', valor: 10 },
   { nombre: 'ace_of_spades.png', valor: 11 },
 ];
 
@@ -84,8 +84,11 @@ const App = () => {
   const [gameInProgress, setGameInProgress] = useState(true);
   const [showRestartButton, setShowRestartButton] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [playerScore, setPlayerScore] = useState (0);
+  const [dealerScore, setDealerScore] = useState (0);
 
 
+  
   // Efecto para inicializar la baraja y repartir las cartas al comienzo del juego
   useEffect(() => {
     if (!gameInProgress) return;
@@ -99,11 +102,14 @@ const App = () => {
 
     const initialDealerCards = [initialDeck.pop(), { nombre: 'back.png', valor: 0 }];
     setDealerCards(initialDealerCards);
+
+    setPlayerScore(calculateScore(initialPlayerCards));
+    setDealerScore(calculateScore(initialDealerCards));
   }, [gameInProgress]);
 
   // Función para tomar una carta extra ("hit")
   const handleHit = () => {
-
+    
     if (!gameInProgress) return;
 
     const card = shuffledDeck.pop(); // Sacar una carta del mazo barajado
@@ -120,10 +126,10 @@ const App = () => {
       setShowRestartButton(true);
       const newMessage = "¡Te has pasado de 21! ¡Has perdido!";
       setMessages([...messages, newMessage]);
-
-
+      setPlayerScore(updatedPlayerScore);
       // Aquí puedes manejar la lógica para indicar al jugador que ha perdido, como actualizar el estado o mostrar un mensaje al usuario
     } else {
+      setPlayerScore(updatedPlayerScore);
       setPlayerCards([...playerCards, card]); // Actualizar la mano del jugador solo si no se ha pasado de 21
     }
 
@@ -139,74 +145,92 @@ const App = () => {
     let dealerHand = [...dealerCards];
     let suma = calculateScore(dealerHand);
 
-    // Repartir cartas al crupier hasta que la suma sea 17 o más o hasta que pierda (suma > 21)
-    while (calculateScore(dealerHand) < 17 && !pierde) {
+    if(dealerCards.some(card => card.valor === 0 )){
+      dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
+      const card = shuffledDeck.pop();
+      setDealerCards(dealerHand,card);
+      
+    }
+    // Repartir cartas al crupier hasta que la suma sea 17 o má
+    while (calculateScore(dealerHand) < 17) {
       const card = shuffledDeck.pop();
       dealerHand = [...dealerHand, card];
+      setDealerCards(dealerHand)
       suma = calculateScore(dealerHand);
+      setDealerScore(suma);
       // Actualizar la suma de la mano del crupier
       if (suma > 21) {
         pierde = true;
         setGameInProgress(false);
-        setShowRestartButton(true);// Si la suma supera 21, el crupier pierde
-        
+        setShowRestartButton(true);
+
       } else {
         // Eliminar la carta oculta de la mano del crupier
-        dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
-        setDealerCards(dealerHand);
         suma = calculateScore(dealerHand);
-        const result = compareScores(suma);
-        console.log(result);
+        setGameInProgress(false);
+        setShowRestartButton(true);
       }
     }
+
+   
   };
 
   // Función para calcular el valor total de las cartas
   const calculateScore = (cards) => {
+ 
     return cards.reduce((total, card) => total + card.valor, 0);
   };
 
   // Calcular puntajes del jugador y del crupier
-  let playerScore = calculateScore(playerCards);
-  let dealerScore = calculateScore(dealerCards);
   
-  const compareScores = (suma) => {
-    playerScore = calculateScore(playerCards);
-    dealerScore = calculateScore(dealerCards);
-    
-    let newMessage = " ";
-    if (playerScore === 21 && playerCards.length === 2) {
+  
+  const compareScores = () => {
+    if (playerScore === 21) {
       // Blackjack del jugador
-      newMessage = "¡Blackjack! El jugador gana.";
+     console.log("1");
       return "¡Blackjack! El jugador gana.";
-    } else if (suma === 21 && dealerCards.length === 2) {
+    } else if (dealerScore === 21) {
       // Blackjack del crupier
-      newMessage = "¡Blackjack! El crupier gana.";
+      console.log("2");
       return "¡Blackjack! El crupier gana.";
     } else if (playerScore > 21) {
       // El jugador ha perdido
-      newMessage = "¡Te has pasado de 21! ¡Has perdido.";
+      console.log("13");
       return "¡Te has pasado de 21! ¡Has perdido.";
-    } else if (suma > 21) {
+    } else if (dealerScore > 21) {
       // El crupier ha perdido
-      newMessage = "El crupier ha perdido.";
+      console.log("14");
       return "El crupier ha perdido.";
-    } else if (playerScore > suma) {
+    } else if (playerScore > dealerScore) {
       // El jugador gana
-      newMessage = "El jugador gana.";
+      console.log("15");
       return "El jugador gana.";
-    } else if (suma > playerScore) {
+    } else if (dealerScore > playerScore) {
       // El crupier gana
-      newMessage = "El crupier gana.";
+      console.log("16");
       return "El crupier gana.";
     } else {
       // Empate
-      newMessage = "¡Es un empate!";
+      console.log("17");
       return "¡Es un empate!";
 
     }
+    
   };
 
+  const handleDealer = () => {
+    if (!gameInProgress) return;
+
+    let updatedDealerCards = [...dealerCards]; // Copia la mano actual del crupier
+    let suma = calculateScore(updatedDealerCards);
+
+    const card = shuffledDeck.pop(); // Saca una carta del mazo barajado
+    updatedDealerCards.push(card); // Agrega la carta a la mano del crupier
+    suma = calculateScore(updatedDealerCards); // Actualiza la suma de la mano del crupier
+
+    setDealerCards(updatedDealerCards); // Actualiza la mano del crupier
+    
+  }
   const handleRestart = () => {
     // Reiniciar el juego
     setGameInProgress(true);
@@ -217,10 +241,12 @@ const App = () => {
     setShowDealerFirstCard(false);
     setMessages([]);
     setShuffledDeck(shuffleDeck([...baraja_inicial]));
+    setPlayerScore(0);
+    setDealerScore(0);
   };
   // Interfaz de usuario
   return (
-    <div>
+    <div className="root">
       <div>
         <div>
           <h2>Puntuación del Crupier: {dealerScore}</h2>
@@ -236,9 +262,8 @@ const App = () => {
         </div>
         <div>
           {/* Botones para pedir una carta adicional ("hit") o plantarse */}
-          <button onClick={handleHit} disabled={!gameInProgress}>Pedir carta</button>
-          <button onClick={handleStand} disabled={!gameInProgress}>Plantarse</button>
-
+          
+          <button onClick={handleDealer} disabled={!gameInProgress}>Pedir carta crupier</button>
           {showRestartButton && <button onClick={handleRestart}>Reiniciar Partida</button>}
         </div>
         <div>
@@ -252,6 +277,9 @@ const App = () => {
               style={{ width: '100px', height: '150px' }}
             />
           ))}
+          <br></br>
+          <button onClick={handleHit} disabled={!gameInProgress}>Pedir carta</button>
+          <button onClick={handleStand} disabled={!gameInProgress}>Plantarse</button>
         </div>
         <div>
           {messages.map((message, index) => (
