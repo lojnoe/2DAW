@@ -120,7 +120,7 @@ const App = () => {
       setShowRestartButton(true);
       const newMessage = "¡Te has pasado de 21! ¡Has perdido!";
       setMessages([...messages, newMessage]);
-      
+
 
       // Aquí puedes manejar la lógica para indicar al jugador que ha perdido, como actualizar el estado o mostrar un mensaje al usuario
     } else {
@@ -138,26 +138,27 @@ const App = () => {
     let pierde;
     let dealerHand = [...dealerCards];
     let suma = calculateScore(dealerHand);
-    
+
     // Repartir cartas al crupier hasta que la suma sea 17 o más o hasta que pierda (suma > 21)
-    while (suma < 17 && !pierde) {
+    while (calculateScore(dealerHand) < 17 && !pierde) {
       const card = shuffledDeck.pop();
       dealerHand = [...dealerHand, card];
-      suma = calculateScore(dealerHand); // Actualizar la suma de la mano del crupier
+      suma = calculateScore(dealerHand);
+      // Actualizar la suma de la mano del crupier
       if (suma > 21) {
         pierde = true;
         setGameInProgress(false);
         setShowRestartButton(true);// Si la suma supera 21, el crupier pierde
+        
+      } else {
+        // Eliminar la carta oculta de la mano del crupier
+        dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
+        setDealerCards(dealerHand);
+        suma = calculateScore(dealerHand);
+        const result = compareScores(suma);
+        console.log(result);
       }
     }
-    // Eliminar la carta oculta de la mano del crupier
-    dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
-    setDealerCards(dealerHand);
-
-    const result = compareScores();
-    console.log(suma)
-    console.log(result);
-
   };
 
   // Función para calcular el valor total de las cartas
@@ -168,16 +169,17 @@ const App = () => {
   // Calcular puntajes del jugador y del crupier
   let playerScore = calculateScore(playerCards);
   let dealerScore = calculateScore(dealerCards);
-
-  const compareScores = () => {
+  
+  const compareScores = (suma) => {
     playerScore = calculateScore(playerCards);
     dealerScore = calculateScore(dealerCards);
+    
     let newMessage = " ";
     if (playerScore === 21 && playerCards.length === 2) {
       // Blackjack del jugador
       newMessage = "¡Blackjack! El jugador gana.";
       return "¡Blackjack! El jugador gana.";
-    } else if (dealerScore === 21 && dealerCards.length === 2) {
+    } else if (suma === 21 && dealerCards.length === 2) {
       // Blackjack del crupier
       newMessage = "¡Blackjack! El crupier gana.";
       return "¡Blackjack! El crupier gana.";
@@ -185,25 +187,24 @@ const App = () => {
       // El jugador ha perdido
       newMessage = "¡Te has pasado de 21! ¡Has perdido.";
       return "¡Te has pasado de 21! ¡Has perdido.";
-    } else if (dealerScore > 21) {
+    } else if (suma > 21) {
       // El crupier ha perdido
       newMessage = "El crupier ha perdido.";
       return "El crupier ha perdido.";
-    } else if (playerScore > dealerScore) {
+    } else if (playerScore > suma) {
       // El jugador gana
       newMessage = "El jugador gana.";
       return "El jugador gana.";
-    } else if (dealerScore > playerScore) {
+    } else if (suma > playerScore) {
       // El crupier gana
       newMessage = "El crupier gana.";
       return "El crupier gana.";
-    } else  {
+    } else {
       // Empate
       newMessage = "¡Es un empate!";
       return "¡Es un empate!";
-      
+
     }
-    
   };
 
   const handleRestart = () => {
