@@ -166,7 +166,7 @@ const App = () => {
         setShowRestartButton(true);
 
       } else {
-        // Eliminar la carta oculta de la mano del crupier
+        
         suma = calculateScore(dealerHand);
         setGameInProgress(false);
         setShowRestartButton(true);
