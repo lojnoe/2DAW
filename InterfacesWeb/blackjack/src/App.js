@@ -141,39 +141,34 @@ const App = () => {
   const handleStand = () => {
     if (!gameInProgress) return;
     setShowDealerFirstCard(true);
-    let pierde;
-    let dealerHand = [...dealerCards];
     
-
+    let dealerHand = [...dealerCards];
+    let suma;
+    // funcion para quitarl y poner otra 
     if (dealerCards.some(card => card.valor === 0)) {
       dealerHand = dealerHand.slice(0, 1).concat(dealerHand.slice(2));
       const card = shuffledDeck.pop();
-      setDealerCards(dealerHand, card);
+      dealerHand.push(card);
+      setDealerCards(dealerHand);
+      suma = calculateScore(dealerHand);
+      setDealerScore(suma);
 
     }
-    
-    // Repartir cartas al crupier hasta que la suma sea 17 o má
-    while (calculateScore(dealerHand) < 17 ) {
+
+    // Repartir cartas al crupier hasta que la suma sea 17 o >
+    while (suma < 17) {
       const card = shuffledDeck.pop();
       dealerHand = [...dealerHand, card];
       setDealerCards(dealerHand)
-      let suma = calculateScore(dealerHand);
+      suma = calculateScore(dealerHand);
       setDealerScore(suma);
-      // Actualizar la suma de la mano del crupier
-      if (suma > 21) {
-        pierde = true;
-        setGameInProgress(false);
-        setShowRestartButton(true);
 
-      } else {
-        
-        suma = calculateScore(dealerHand);
-        setGameInProgress(false);
-        setShowRestartButton(true);
-      }
     }
-
-
+    compareScores(suma);
+    const resultado = compareScores(suma);
+    setMessages([...messages, resultado]);
+    setGameInProgress(false);
+    setShowRestartButton(true);
   };
 
   // Función para calcular el valor total de las cartas
@@ -182,52 +177,44 @@ const App = () => {
     return cards.reduce((total, card) => total + card.valor, 0);
   };
 
-  // Calcular puntajes del jugador y del crupier
-
-
-  const compareScores = () => {
+  // Funcion para comparar y decidir resultado
+  const compareScores = (suma) => {
     if (playerScore === 21) {
       // Blackjack del jugador
-      console.log("1");
       return "¡Blackjack! El jugador gana.";
-    } else if (dealerScore === 21) {
+    } else if (suma === 21) {
       // Blackjack del crupier
-      console.log("2");
       return "¡Blackjack! El crupier gana.";
     } else if (playerScore > 21) {
       // El jugador ha perdido
-      console.log("13");
       return "¡Te has pasado de 21! ¡Has perdido.";
-    } else if (dealerScore > 21) {
+    } else if (suma > 21) {
       // El crupier ha perdido
-      console.log("14");
       return "El crupier ha perdido.";
-    } else if (playerScore > dealerScore) {
+    } else if (playerScore > suma) {
       // El jugador gana
-      console.log("15");
       return "El jugador gana.";
-    } else if (dealerScore > playerScore) {
+    } else if (suma > playerScore) {
       // El crupier gana
-      console.log("16");
       return "El crupier gana.";
     } else {
       // Empate
-      console.log("17");
       return "¡Es un empate!";
-
     }
-
   };
 
   const handleDealer = () => {
     if (!gameInProgress) return;
-
     let updatedDealerCards = [...dealerCards]; // Copia la mano actual del crupier
-
     const card = shuffledDeck.pop(); // Saca una carta del mazo barajado
     updatedDealerCards.push(card); // Agrega la carta a la mano del crupier
-    let suma = calculateScore(updatedDealerCards); // Actualiza la suma de la mano del crupier
-    console.log(suma);
+    let suma = calculateScore(updatedDealerCards);
+    if (suma > 21) {
+      const newMessage = "¡Te has pasado de 21! ¡Has perdido!";
+      setMessages([...messages, newMessage]);
+      setGameInProgress(false);
+      setShowRestartButton(true);
+    }
     setDealerScore(suma);
     setDealerCards(updatedDealerCards); // Actualiza la mano del crupier
 
