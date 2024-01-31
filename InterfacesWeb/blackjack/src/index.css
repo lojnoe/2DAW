@@ -5,12 +5,35 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url(https://images7.alphacoders.com/106/1069906.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.root{
-  background-color:rgb(51, 124, 22);
+
+.root {
+  z-index: 2;
+ 
+}
+
+.kingdice {
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  height: 750px;
+  top: -19.5%;
+  position: absolute;
+  left: 6.5%;
+  width: 90%;
+
+}
+
+.kingdice img {
+  width: 90%;
+  height: 730px;
 }

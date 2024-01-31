@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './index.css';
 
 // Definir los palos y los valores de las cartas
 
@@ -78,7 +78,7 @@ const App = () => {
   // Estados para las cartas del jugador, del crupier, carta extra, etc.
   const [playerCards, setPlayerCards] = useState([]);
   const [dealerCards, setDealerCards] = useState([]);
-  const [hitCard, setHitCard] = useState([]);
+  
   const [showDealerFirstCard, setShowDealerFirstCard] = useState(false);
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [gameInProgress, setGameInProgress] = useState(true);
@@ -113,9 +113,7 @@ const App = () => {
     if (!gameInProgress) return;
 
     const card = shuffledDeck.pop(); // Sacar una carta del mazo barajado
-    setHitCard(card); // Establecer la carta extra en el estado
     const updatedPlayerCards = [...playerCards, card]; // Añadir la carta extra a la mano del jugador
-
     // Calcular la puntuación del jugador con la nueva carta
     const updatedPlayerScore = calculateScore(updatedPlayerCards);
 
@@ -133,15 +131,13 @@ const App = () => {
       setPlayerCards([...playerCards, card]); // Actualizar la mano del jugador solo si no se ha pasado de 21
     }
 
-
-
   };
 
   // Función para manejar la acción de plantarse
   const handleStand = () => {
     if (!gameInProgress) return;
     setShowDealerFirstCard(true);
-    
+
     let dealerHand = [...dealerCards];
     let suma;
     // funcion para quitarl y poner otra 
@@ -225,7 +221,7 @@ const App = () => {
     setShowRestartButton(false);
     setPlayerCards([]);
     setDealerCards([]);
-    setHitCard([]);
+    
     setShowDealerFirstCard(false);
     setMessages([]);
     setShuffledDeck(shuffleDeck([...baraja_inicial]));
@@ -234,48 +230,52 @@ const App = () => {
   };
   // Interfaz de usuario
   return (
-    <div className="root">
-      <div>
-        <div>
-          <h2>Puntuación del Crupier: {dealerScore}</h2>
-          {/* Mostrar las cartas del crupier, ocultando la primera carta si aún no se ha revelado */}
-          {dealerCards.map((card, index) => (
-            <img
-              key={index}
-              src={`./assets/PNG/${index === 1 && !showDealerFirstCard ? 'back.png' : card.nombre}`}
-              alt={card.nombre}
-              style={{ width: '100px', height: '150px' }}
-            />
-          ))}
-        </div>
-        <div>
-          {/* Botones para pedir una carta adicional ("hit") o plantarse */}
+    <div>
 
-          <button onClick={handleDealer} disabled={!gameInProgress}>Pedir carta crupier</button>
-          {showRestartButton && <button onClick={handleRestart}>Reiniciar Partida</button>}
-        </div>
+
+      <div className="root">
         <div>
-          <h2>Puntuación del Jugador: {playerScore}</h2>
-          {/* Mostrar las cartas del jugador */}
-          {playerCards.map((card, index) => (
-            <img
-              key={index}
-              src={`./assets/PNG/${card.nombre}`}
-              alt={card.nombre}
-              style={{ width: '100px', height: '150px' }}
-            />
-          ))}
-          <br></br>
-          <button onClick={handleHit} disabled={!gameInProgress}>Pedir carta</button>
-          <button onClick={handleStand} disabled={!gameInProgress}>Plantarse</button>
+          <div>
+            <h2>Puntuación del Crupier: {dealerScore}</h2>
+            {/* Mostrar las cartas del crupier, ocultando la primera carta si aún no se ha revelado */}
+            {dealerCards.map((card, index) => (
+              <img
+                key={index}
+                src={`./assets/PNG/${index === 1 && !showDealerFirstCard ? 'back.png' : card.nombre}`}
+                alt={card.nombre}
+                style={{ width: '100px', height: '150px' }}
+              />
+            ))}
+          </div>
+          <div>
+            {/* Botones para pedir una carta adicional ("hit") o plantarse */}
+
+            <button onClick={handleDealer} disabled={!gameInProgress}>Pedir carta crupier</button>
+            {showRestartButton && <button onClick={handleRestart}>Reiniciar Partida</button>}
+          </div>
+          <div>
+            <h2>Puntuación del Jugador: {playerScore}</h2>
+            {/* Mostrar las cartas del jugador */}
+            {playerCards.map((card, index) => (
+              <img
+                key={index}
+                src={`./assets/PNG/${card.nombre}`}
+                alt={card.nombre}
+                style={{ width: '100px', height: '150px' }}
+              />
+            ))}
+            <br></br>
+            <button onClick={handleHit} disabled={!gameInProgress}>Pedir carta</button>
+            <button onClick={handleStand} disabled={!gameInProgress}>Plantarse</button>
+          </div>
+          <div>
+            {messages.map((message, index) => (
+              <p key={index}>{message}</p>
+            ))}
+          </div>
         </div>
-        <div>
-          {messages.map((message, index) => (
-            <p key={index}>{message}</p>
-          ))}
-        </div>
+
       </div>
-
     </div>
   );
 };
