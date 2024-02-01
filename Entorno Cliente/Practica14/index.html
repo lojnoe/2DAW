@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica 14</title>
+    <script src="index.js"></script>
+</head>
+<!-- 
+        Crea una página web para organizar una lista (puede ser de la
+        compra, videojuegos, etc) donde los datos son persistentes y
+        permanentes usando localStorage:
+        a. Un botón donde podemos almacenar (setItem) los
+        nombres, éstos deben aparecer en una lista
+        b. Un botón “mostrar contenido” para mostrar todos los
+        valores almacenados en localStorage (JSON.stringify).
+        c. Eliminar elementos (delete) para poder borrar
+        elementos de forma individual por su nombre
+        d. Limpiar el contenido (clear) para eliminar todos los
+        elementos de la lista
+    -->
+
+<body>
+
+    <h1>Lista</h1>
+    <p>Insertar</p>
+    <input type="text" name="" id="info">
+    <p>Borrar</p>
+    <input type="text" name="" id="inputBorrar">
+   
+    <button id="set" onclick="setItem()">Añadir Nombres</button>
+    <button id="mostrar" onclick="mostrarLista()">Mostrar Lista</button>
+    <button id="delete" onclick="deleteItem()">Borrar Lista</button>
+    <button id="clear" onclick="limpiar()">Limpiar lista</button>
+   
+    <p id="contenido"></p>
+</body>
+
+</html>
