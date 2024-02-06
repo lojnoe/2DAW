@@ -210,6 +210,8 @@ const App = () => {
       setMessages([...messages, newMessage]);
       setGameInProgress(false);
       setShowRestartButton(true);
+
+      
     }
     setDealerScore(suma);
     setDealerCards(updatedDealerCards); // Actualiza la mano del crupier
