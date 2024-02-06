@@ -19,6 +19,7 @@ function setItem() {
 }
 
 function mostrarLista() {
+
     const lista = JSON.parse(localStorage.getItem("lista")) || [];
     const listaHTML = lista.map(item => `<li>${item}</li>`).join('');
     document.getElementById("contenido").innerHTML = `<ul>${listaHTML}</ul>`;
