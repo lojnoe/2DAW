@@ -3,9 +3,8 @@ CACHE MANIFEST
 
 CACHE:
 /index.html
-/css/style.css
-/js/script.js
-/images/logo.png
+/style.css
+/script.js
 
 NETWORK:
 *
